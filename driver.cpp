@@ -3,45 +3,51 @@
   ----------------------------------------------------------------------*/
 
 #include <iostream>
-using namespace std;
-	
 #include "LStack.h"
+#include <string>
 
-void print(Stack st)
-{ st.display(cout); }
+using namespace std;
+
+
 
 int main()
 {
-   Stack s;
-   cout << "Stack created.  Empty? " << boolalpha << s.empty() << endl;
+    Stack RpnStack;
+    string postFixExp;
+    char token;
+    int var1, var2;
 
-   cout << "How many elements to add to the stack? ";
-   int numItems;
-   cin >> numItems;
-   for (int i = 1; i <= numItems; i++) 
-      s.push(100*i);	
-   cout << "Stack empty? " << s.empty() << endl;
+    cout << "Enter post fix expression: ";
+    cin >> postFixExp;
 
-   cout << "Contents of stack s (via  print):\n";
-   print(s); cout << endl;
-   cout << "Check that the stack wasn't modified by print:\n";
-   s.display(cout); cout << endl;
+    for (int i = 0; i < postFixExp.length(); i++)
+    {
+        token = postFixExp[i];
 
-   Stack t, u;
-   t = u = s;
-   cout << "Contents of stacks t and u after t = u = s (via  print):\n";
-   cout << "u:\n"; print(u); cout << endl;
-   cout << "t:\n"; print(t); cout << endl;
+        switch (token)
+        {
+        case '0':case '1':case '2':case '3':case '4':case '5':case '6':case '7':case '8':case '9':
+            RpnStack.push(token - 48);
+            break;
+        case '+':case '-':case '*':case '/':
+            var1 = RpnStack.top();
+            RpnStack.pop();
+            var2 = RpnStack.top();
+            RpnStack.pop();
 
-   cout << "Top value in t: " << t.top() << endl;
+            if (token == '+')
+                RpnStack.push(var2 + var1);
+            else if (token == '-')
+                RpnStack.push(var2 - var1);
+            else if (token == '*')
+                RpnStack.push(var2 * var1);
+            else if (token == '/')
+                RpnStack.push(var2 / var1);
+            break;
 
-   while (!t.empty())
-   {
-     cout << "Popping t:  " << t.top() << endl;
-     t.pop();
-   }
-   cout << "Stack t empty? " << t.empty() << endl;
-   cout << "Top value in t: " << t.top() << endl;
-   cout << "Trying to pop t: " << endl;
-   t.pop();
+        }
+
+    }
+    cout << endl << "Value for expression entered is: " << RpnStack.top() << endl;
+    return 0;
 }
