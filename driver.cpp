@@ -12,7 +12,7 @@ using namespace std;
 
 int main()
 {
-    Stack RpnStack;
+    
     string postFixExp;
     char token, anotherExp;
     int var1, var2, i;
@@ -22,6 +22,7 @@ int main()
 
     do
     {
+        Stack RpnStack;
         badVal = false;                                     // boolean for unexpected characters
         cout << "Enter post fix expression: ";
         getline(cin, postFixExp);                           // get user expression
@@ -47,7 +48,7 @@ int main()
                     
                     if (RpnStack.empty())
                     {
-                        cout << "Error --> Stack does not have two item -- Malformed expression." << endl;
+                        cout << "Error --> Stack does not contain two items -- Malformed expression." << endl;
                         badVal = true;
                         break;
                     }
@@ -65,6 +66,13 @@ int main()
                     else if (token == '*')
                         RpnStack.push(var2 * var1);
                     else if (token == '/')
+                        if (var1 == 0)
+                        {
+                            cout << "Error --> Cannot divide by zero." << endl;
+                            badVal = true;
+                            break;
+                        }
+                    else
                         RpnStack.push(var2 / var1);
                     break;
                     
