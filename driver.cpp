@@ -15,17 +15,19 @@ int main()
     Stack RpnStack;
     string postFixExp;
     char token, anotherExp;
-    int var1, var2;
+    int var1, var2, i;
     bool badVal;
 
 
 
     do
     {
-        badVal = false;                                  // boolean for unexpected characters
+        badVal = false;                                     // boolean for unexpected characters
         cout << "Enter post fix expression: ";
-        getline(cin, postFixExp);                        // get user expression
-        for (int i = 0; i < postFixExp.length(); i++)    // loop over length of user expression
+        getline(cin, postFixExp);                           // get user expression
+        i = 0;
+        
+        while(badVal == false && i < postFixExp.length())  // loop over length of user expression
         {
             token = postFixExp[i];
 
@@ -42,9 +44,19 @@ int main()
                 case '+':case '-':case '*':case '/':
                     var1 = RpnStack.top();
                     RpnStack.pop();
-
-                    var2 = RpnStack.top();
-                    RpnStack.pop();
+                    
+                    if (RpnStack.empty())
+                    {
+                        cout << "Error --> Stack does not have two item -- Malformed expression." << endl;
+                        badVal = true;
+                        break;
+                    }
+                    
+                    else
+                    {
+                        var2 = RpnStack.top();
+                        RpnStack.pop();
+                    }
 
                     if (token == '+')
                         RpnStack.push(var2 + var1);
@@ -55,12 +67,13 @@ int main()
                     else if (token == '/')
                         RpnStack.push(var2 / var1);
                     break;
+                    
                 default:
-                    cout << "Malformed Expression encountered";
+                    cout << "Error: --> Malformed Expression encountered" << endl;
                     badVal = true;
                     break;
             }
-
+            i++;
         }
         if (badVal == false)
             cout << endl << "Value for expression entered is: " << RpnStack.top() << endl;
