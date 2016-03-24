@@ -58,24 +58,28 @@ int main()
                     {
                         var2 = RpnStack.top();
                         RpnStack.pop();
+                        //cout << endl <<  "Debug(1) --> Stack empty: " << boolalpha << RpnStack.empty() << endl;
                     }
-
+                    
                     if (token == '+')
                         RpnStack.push(var2 + var1);
                     else if (token == '-')
                         RpnStack.push(var2 - var1);
                     else if (token == '*')
-                        RpnStack.push(var2 * var1);
+                    RpnStack.push(var2 * var1);
+                        //cout << endl <<  "Debug(2) --> Stack empty: " << boolalpha << RpnStack.empty() << endl;
                     else if (token == '/')
+                    {
                         if (var1 == 0)                          // check for zero denominator
                         {
                             cout << "Error --> Cannot divide by zero." << endl;
                             malform = true;
                             break;
                         }
-                    else
-                    {
-                        RpnStack.push(var2 / var1);
+                        else
+                        {
+                            RpnStack.push(var2 / var1);
+                        }
                     }
                     break;
                     
@@ -87,10 +91,16 @@ int main()
             i++;
 
         }
-        lastItem = RpnStack.top();
-        RpnStack.pop();
-        
-        if (malform == false && !RpnStack.empty())
+        if (!malform)
+        {
+            //cout << endl <<  "Debug(3) --> Stack empty: " << boolalpha << RpnStack.empty() << endl;
+            lastItem = RpnStack.top();
+            RpnStack.pop();
+        }
+        //cout << endl <<  "Debug(4) --> Stack empty: " << boolalpha << RpnStack.empty() << endl;
+        //cout << endl <<  "Debug(5) --> Malform: " << boolalpha << malform << endl;
+    
+        if (malform != true && RpnStack.empty())
         {
             cout << endl << "Value for expression entered is: " << lastItem << endl;
         }
@@ -102,5 +112,3 @@ int main()
     }while (anotherExp == 'y' || anotherExp == 'Y');
     return 0;
 }
-
-
